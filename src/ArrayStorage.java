@@ -17,7 +17,7 @@ public class ArrayStorage {
         this.summaries = new Summary[capacity];
     }
 
-    public void clearStorage(){
+    public void clear(){
         if(size == 0){
             return;
         }
@@ -26,19 +26,19 @@ public class ArrayStorage {
 
     }
 
-    public Summary getSummary(int index) throws Exception {
+    public Summary get(int index) throws Exception {
         if(index >= size || index < 0){
             throw new Exception("IndexOutOfBounds");
         }
         return summaries[index];
     }
-    public void saveSummary(Summary summary) throws Exception {
+    public void save(Summary summary) throws Exception {
         if(size == capacity){
             throw new Exception("sizeOufOfCapacity");
         }
         summaries[size++] = summary;
     }
-    public void deleteSummary(int index) throws Exception {
+    public void delete(int index) throws Exception {
         if(index >= size || index < 0){
             throw new Exception("IndexOutOfBounds");
         }
@@ -54,10 +54,11 @@ public class ArrayStorage {
         size--;
     }
 
-    public Summary[] getAllSummaries() {
+    public Summary[] getAll() {
         return summaries;
     }
-    public int getSize() {
+
+    public int size() {
         return size;
     }
 
