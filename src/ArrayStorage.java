@@ -19,7 +19,7 @@ public class ArrayStorage {
 
     public Resume get(String uuid) throws Exception {
         if(size == 0){
-            throw new Exception("Storage is empty");
+            return null;
         }
         for(int i = 0; i < size; i++){
             String uuidCurrent = storage[i].getUuid();
