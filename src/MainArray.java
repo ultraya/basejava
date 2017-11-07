@@ -1,11 +1,16 @@
+import model.Resume;
+import storage.ArrayStorage;
+import storage.SortedArrayStorage;
+import storage.Storage;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
     /**
-     * Test for com.urise.webapp.storage.ArrayStorage
+     * Test for com.urise.webapp.storage.storage.ArrayStorage
      */
     public class MainArray {
-        private final static ArrayStorage ARRAY_STORAGE = new ArrayStorage();
+        private final static Storage ARRAY_STORAGE = new SortedArrayStorage();
 
         public static void main(String[] args) throws Exception {
             BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
@@ -56,6 +61,7 @@ import java.io.InputStreamReader;
 
         static void printAll() {
             Resume[] all = ARRAY_STORAGE.getAll();
+
             System.out.println("----------------------------");
             if (all.length == 0) {
                 System.out.println("Empty");

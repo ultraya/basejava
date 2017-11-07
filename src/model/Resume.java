@@ -1,4 +1,6 @@
-public class Resume {
+package model;
+
+public class Resume implements Comparable<Resume> {
 
 
     private String uuid;
@@ -51,11 +53,31 @@ public class Resume {
 
     @Override
     public String toString() {
-        return "Resume{" +
+        return "model.Resume{" +
                 "uuid='" + uuid + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", profession='" + profession + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Resume resume = (Resume) o;
+
+        return uuid.equals(resume.uuid);
+    }
+
+    @Override
+    public int hashCode() {
+        return uuid.hashCode();
+    }
+
+    @Override
+    public int compareTo(Resume o) {
+        return uuid.compareTo(o.getUuid());
     }
 }
