@@ -1,15 +1,22 @@
 package model;
 
+import java.util.UUID;
+
 public class Resume implements Comparable<Resume> {
 
 
-    private String uuid;
+    private final String uuid;
 
     private String firstName;
     private String lastName;
     private String profession;
 
     public Resume() {
+        this(UUID.randomUUID().toString());
+    }
+
+    public Resume(String uuid) {
+        this.uuid = uuid;
     }
 
     public Resume(String uuid, String firstName, String lastName, String profession) {
@@ -21,10 +28,6 @@ public class Resume implements Comparable<Resume> {
 
     public String getUuid() {
         return uuid;
-    }
-
-    public void setUuid(String uuid) {
-        this.uuid = uuid;
     }
 
     public String getFirstName() {
@@ -53,7 +56,7 @@ public class Resume implements Comparable<Resume> {
 
     @Override
     public String toString() {
-        return "model.Resume{" +
+        return "Resume{" +
                 "uuid='" + uuid + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
