@@ -10,9 +10,4 @@ public class MapStorageTest extends AbstractStorageTest{
         super(new MapStorage());
     }
 
-    @Test
-    @Override
-    public void saveOverflow() {
-        super.saveOverflow();
-    }
 }

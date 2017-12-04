@@ -8,19 +8,22 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.List;
+
 public class AbstractStorageTest {
 
     private static final String UUID_1 = "UUID_1";
-    private static final Resume RESUME_1 = new Resume(UUID_1);
+    private static final Resume RESUME_1 = new Resume(UUID_1, "AAA BBB CCC");
+
 
     private static final String UUID_2 = "UUID_2";
-    private static final Resume RESUME_2 = new Resume(UUID_2);
+    private static final Resume RESUME_2 = new Resume(UUID_2, "BBB AAA CCC");
 
     private static final String UUID_3 = "UUID_3";
-    public static final Resume RESUME_3 = new Resume(UUID_3);
+    public static final Resume RESUME_3 = new Resume(UUID_3, "BBB CCC AAA");
 
 
-    private Storage storage;
+    protected Storage storage;
 
     public AbstractStorageTest(Storage storage) {
         this.storage = storage;
@@ -33,11 +36,12 @@ public class AbstractStorageTest {
         storage.save(RESUME_1);
         storage.save(RESUME_2);
         storage.save(RESUME_3);
+
     }
 
     @Test
     public void save() throws Exception {
-        Resume saveResume = new Resume();
+        Resume saveResume = new Resume("1","NewName");
         storage.save(saveResume);
         assertSize(4);
         Assert.assertSame(saveResume, storage.get(saveResume.getUuid()));
@@ -46,10 +50,10 @@ public class AbstractStorageTest {
 
     @Test
     public void update() throws Exception {
-        Resume updateResume = new Resume(UUID_2);
+        Resume updateResume = new Resume(UUID_2, "NewName");
         storage.update(updateResume);
         assertSize(3);
-        Assert.assertSame(updateResume, storage.get(updateResume.getUuid()));
+        Assert.assertTrue(updateResume == storage.get(UUID_2));
 
     }
 
@@ -78,12 +82,12 @@ public class AbstractStorageTest {
     }
 
     @Test
-    public void getAll() throws Exception {
-        Resume[] all = storage.getAll();
-        assertSize(all.length);
-        Assert.assertSame(RESUME_1, all[0]);
-        Assert.assertSame(RESUME_2, all[1]);
-        Assert.assertSame(RESUME_3, all[2]);
+    public void getAllSorted() throws Exception {
+        List<Resume> allSorted = storage.getAllSorted();
+        assertSize(allSorted.size());
+        Assert.assertSame(RESUME_1, allSorted.get(0));
+        Assert.assertSame(RESUME_2, allSorted.get(1));
+        Assert.assertSame(RESUME_3, allSorted.get(2));
 
     }
 
@@ -98,22 +102,10 @@ public class AbstractStorageTest {
         storage.save(RESUME_1);
     }
 
-    @Test(expected = StorageException.class)
-    public void saveOverflow(){
-        try {
-            for (int i = 3; i < AbstractArrayStorage.MAX_CAPACITY; i++) {
-                storage.save(new Resume());
-            }
-        }catch (StorageException e){
-            Assert.fail();
-        }
-        storage.save(new Resume());
-
-    }
 
     @Test(expected = NotExistResumeStorage.class)
     public void updateNotExist(){
-        storage.update(new Resume());
+        storage.update(new Resume("Name"));
     }
 
     @Test(expected = NotExistResumeStorage.class)
