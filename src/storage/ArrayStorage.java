@@ -3,19 +3,18 @@ package storage;
 import exception.StorageException;
 import model.Resume;
 
-import java.util.Arrays;
-
 
 public class ArrayStorage extends AbstractArrayStorage {
 
     @Override
-    protected void deleteAndReplace(int index) {
-        storage[index] = storage[size - 1];
+    protected void deleteAndReplace(Object searchKey) {
+        //add last element to deleted element
+        storage[(Integer) searchKey] = storage[size - 1];
     }
 
 
     @Override
-    protected void insertResume(Resume r, int index) {
+    protected void insertResume(Resume r, Object searchKey) {
         if(size() == MAX_CAPACITY) {
             throw new StorageException(r.getUuid(), "Storage is overflow");
         }
@@ -23,10 +22,10 @@ public class ArrayStorage extends AbstractArrayStorage {
         size++;
     }
 
-    protected int getIndex(Resume r) {
+    protected Object getSearchKey(String uuid) {
         for(int i = 0; i < size; i++){
             String uuidCurrent = storage[i].getUuid();
-            if(uuidCurrent.equals(r.getUuid())){
+            if(uuidCurrent.equals(uuid)){
                 return i;
             }
         }

@@ -3,14 +3,13 @@ package storage;
 import model.Resume;
 
 import java.util.Arrays;
+import java.util.List;
 
 public abstract class AbstractArrayStorage extends AbstractStorage{
 
     protected static final int MAX_CAPACITY = 10000;
     protected int size = 0;
     protected Resume[] storage = new Resume[MAX_CAPACITY];
-
-
 
 
     public void clear(){
@@ -26,33 +25,31 @@ public abstract class AbstractArrayStorage extends AbstractStorage{
 
 
     @Override
-    protected void deleteFromStorage(int index, String uuid) {
-        deleteAndReplace(index);
+    protected void deleteFromStorage(Object searchKey) {
+        deleteAndReplace(searchKey);
         storage[size - 1] = null;
         size--;
     }
 
-    protected boolean isEmpty(){
-        if(size == 0){
-            System.out.println("Storage is empty");
-            return true;
-        }
-        return false;
-    }
-    protected Resume getElement(int index, String uuid){
-        return storage[index];
+    protected Resume getResumeFromStorage(Object searchKey){
+        return storage[(Integer) searchKey];
     }
 
     @Override
-    protected void updateResume(Resume r, int index) {
-        storage[index] = r;
+    protected void updateResume(Resume r, Object searchKey) {
+        storage[(Integer) searchKey] = r;
     }
 
     @Override
-    protected Resume[] getResumeArray(Resume[] result) {
-        System.arraycopy(storage, 0, result, 0, size);
-        return result;
+    protected List<Resume> getCopyResumeList() {
+        List<Resume> copyStorage =Arrays.asList(Arrays.copyOfRange(storage, 0, size));
+        return copyStorage;
     }
 
-    protected abstract void deleteAndReplace(int index);
+    @Override
+    protected boolean isExist(Object searchKey) {
+        return (Integer) searchKey >=0;
+    }
+
+    protected abstract void deleteAndReplace(Object searchKey);
 }

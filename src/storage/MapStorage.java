@@ -2,13 +2,12 @@ package storage;
 
 import model.Resume;
 
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 
 
 public class MapStorage extends AbstractStorage {
 
-    Map<String, Resume> storage = new TreeMap<>();
+    Map<String, Resume> storage = new HashMap<>();
 
     @Override
     public void clear() {
@@ -21,36 +20,37 @@ public class MapStorage extends AbstractStorage {
     }
 
     @Override
-    protected int getIndex(Resume r) {
-        if(storage.containsValue(r)){
-            return 1;
-        }else{
-            return -1;
-        }
+    protected boolean isExist(Object searchKey) {
+        return storage.containsKey((String) searchKey);
     }
 
     @Override
-    protected void insertResume(Resume r, int index) {
+    protected Object getSearchKey(String uuid) {
+        return uuid;
+    }
+
+    @Override
+    protected void insertResume(Resume r, Object searchKey) {
         storage.put(r.getUuid(), r);
     }
 
     @Override
-    protected Resume getElement(int index, String uuid) {
-        return storage.get(uuid);
+    protected Resume getResumeFromStorage(Object searchKey) {
+        return storage.get((String)searchKey);
     }
 
     @Override
-    protected void deleteFromStorage(int index, String uuid) {
-        storage.remove(uuid);
+    protected void deleteFromStorage(Object searchKey) {
+        storage.remove((String)searchKey);
     }
 
     @Override
-    protected void updateResume(Resume r, int index) {
+    protected void updateResume(Resume r, Object searchKey) {
         storage.put(r.getUuid(), r);
     }
 
     @Override
-    protected Resume[] getResumeArray(Resume[] result) {
-        return storage.values().toArray(result);
+    protected List<Resume> getCopyResumeList() {
+        return new ArrayList<>(storage.values());
     }
 }

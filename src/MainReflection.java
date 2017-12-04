@@ -8,7 +8,7 @@ public class MainReflection {
 
     public static void main(String[] args) throws IllegalAccessException, NoSuchMethodException, InvocationTargetException {
 
-        Resume r = new Resume();
+        Resume r = new Resume("Name");
         System.out.println(r);
 
         Class<? extends Resume> aClass = r.getClass();
